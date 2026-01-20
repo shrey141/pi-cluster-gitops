@@ -28,6 +28,12 @@ spec:
             size: 5Gi
           service:
             type: LoadBalancer
+          additionalDataSources:
+            - name: Loki
+              type: loki
+              url: http://loki:3100
+              access: proxy
+              isDefault: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
