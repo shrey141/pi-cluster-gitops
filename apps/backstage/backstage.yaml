@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://backstage.github.io/charts
+    chart: backstage
+    targetRevision: 1.8.2
+    helm:
+      values: |
+        backstage:
+          image:
+            registry: ghcr.io
+            repository: backstage/backstage
+            tag: latest
+          appConfig:
+            app:
+              title: Pi Cluster Developer Portal
+              baseUrl: http://localhost:7007
+            backend:
+              baseUrl: http://localhost:7007
+              listen:
+                port: 7007
+              database:
+                client: better-sqlite3
+                connection: ':memory:'
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+              cpu: 500m
+        service:
+          type: LoadBalancer
+          ports:
+            backend: 7007
+        ingress:
+          enabled: false
