@@ -27,6 +27,13 @@ spec:
               database:
                 client: better-sqlite3
                 connection: ':memory:'
+            auth:
+              environment: development
+              providers:
+                guest: {}
+          extraEnvVars:
+            - name: NODE_ENV
+              value: development
           resources:
             requests:
               memory: 512Mi
